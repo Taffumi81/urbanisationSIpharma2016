@@ -6,6 +6,7 @@
 package pharma;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -69,19 +70,33 @@ public class Medicament implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.nomMed);
+        hash = 47 * hash + Objects.hashCode(this.administrationMed);
+        hash = 47 * hash + this.stockMed;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Medicament)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Medicament other = (Medicament) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Medicament other = (Medicament) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.nomMed, other.nomMed)) {
+            return false;
+        }
+        if (!Objects.equals(this.administrationMed, other.administrationMed)) {
+            return false;
+        }
+        if (this.stockMed != other.stockMed) {
             return false;
         }
         return true;
@@ -89,7 +104,8 @@ public class Medicament implements Serializable {
 
     @Override
     public String toString() {
-        return "bureau.Medicament[ id=" + id + " ]";
+        return "Medicament{" + "id=" + id + ", nomMed=" + nomMed + ", administrationMed=" + administrationMed + ", stockMed=" + stockMed + '}';
     }
+
     
 }

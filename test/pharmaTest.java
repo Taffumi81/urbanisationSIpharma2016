@@ -34,14 +34,14 @@ public class pharmaTest {
     
     static void clean() {
         ServicesPharma serv = new ServicesPharma(DatabaseUtils.fact());
-        //serv.newMedicament("Test1","Orale",300);
-        //List<Medicament> res = serv.getAllMedicament();
-        //assert(res.isEmpty());
+        serv.deleteAllMedicaments();
+        List<Medicament> res = serv.consultStock();
+        assert(res.isEmpty());
     }
     
     @Test
     public void medicament() {
-        System.out.println("foo");
+        
         clean();
         ServicesPharma serv = new ServicesPharma(DatabaseUtils.fact());
         Medicament med = serv.newMedicament("Test1","Orale",300);
@@ -52,13 +52,13 @@ public class pharmaTest {
         List<Medicament> res = serv.consultStock();
         assert(!res.isEmpty());
         assert(res.size() == 2);
-        System.out.println("toto test");
         
         for (Medicament m : res) {
             System.out.println(m.getId());
             System.out.println(m.getNomMed());
             System.out.println(m.getAdministrationMed());
             System.out.println(m.getStockMed());
+            System.out.println("---------------");
         }
         
     }

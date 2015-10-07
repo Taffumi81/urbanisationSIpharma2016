@@ -23,6 +23,8 @@ public class ServicesPharma {
         this.fact = fact;
     }
     
+    /*Medicaments*/
+    
     public Medicament newMedicament(String nomMed , String adminMed , int stockMedInit) {
         Medicament m = new Medicament();
         m.setNomMed(nomMed);
@@ -42,5 +44,47 @@ public class ServicesPharma {
         List<Medicament> res = query.getResultList();
         em.close();
         return res;
+    }
+    
+    
+    
+    public void deleteAllMedicaments() {
+        EntityManager em = fact.createEntityManager();
+        em.getTransaction( ).begin( );
+        em.createQuery("DELETE FROM Medicament").executeUpdate();
+        em.getTransaction().commit();
+        em.close();
+    }
+    
+    /*Admission*/
+    public Admission newAdmission(int IEP , int IPP , String nom , String prenom) {
+        Admission a = new Admission();
+        
+        a.setIEP(IEP);
+        a.setIPP(IPP);
+        a.setNomPatient(nom);
+        a.setPrenomPatient(prenom);  
+        EntityManager em = fact.createEntityManager();
+	em.getTransaction( ).begin( );
+        em.persist(a);
+        em.getTransaction().commit();
+        em.close();
+        return a;
+    }
+    
+    public List<Admission> getAllAdmission() {
+        EntityManager em = fact.createEntityManager();
+	TypedQuery<Admission> query = em.createQuery("SELECT a FROM Admission a", Admission.class);
+        List<Admission> res = query.getResultList();
+        em.close();
+        return res;
+    }
+    
+    public void deleteAllAdmission() {
+        EntityManager em = fact.createEntityManager();
+        em.getTransaction( ).begin( );
+        em.createQuery("DELETE FROM Admission").executeUpdate();
+        em.getTransaction().commit();
+        em.close();
     }
 }
