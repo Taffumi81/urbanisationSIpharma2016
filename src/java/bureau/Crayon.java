@@ -36,8 +36,6 @@ public class Crayon implements Serializable {
         this.couleur = couleur;
     }
     
-    
-
     public int getId() {
         return id;
     }

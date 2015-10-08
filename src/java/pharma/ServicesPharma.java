@@ -5,6 +5,7 @@
  */
 package pharma;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -97,14 +98,17 @@ public class ServicesPharma {
     /*Prescription*/
     
     public Prescription newPrescription(String nomUF , String prep , String date, List<MedicamentPrescription> listMed) {
+        EntityManager em = fact.createEntityManager();
         Prescription p = new Prescription();
+        em.getTransaction( ).begin( );
+        
+        p.setMedicamentsPresc(listMed);
         p.setNomUF(nomUF);
         p.setPreparateur(prep);
         p.setEtat(Etat.NonValide);
-        p.setMedicamentsPresc(listMed);
+        p.setDatePresc(date);
         
-        EntityManager em = fact.createEntityManager();
-	em.getTransaction( ).begin( );
+        
         em.persist(p);
         em.getTransaction().commit();
         em.close();
@@ -127,21 +131,29 @@ public class ServicesPharma {
         em.close();
     }
     
-    /*public Admission setEtatByIEP (int IEP, Etat e) {
+    public Prescription getPrescriptionByID (int id) {
         EntityManager em = fact.createEntityManager();
-	Admission res = em.find( Admission.class, IEP );
+	Prescription res = em.find( Prescription.class, id );
         em.close();
         return res;
-    }*/
+    }
     
-    /*Prescription*/
+    public void setEtatByIDPrescription (int id, Etat e) {
+        Prescription res = getPrescriptionByID(id);
+        res.setEtat(e);
+        EntityManager em = fact.createEntityManager();
+        em.flush();
+        em.close();
+    }
+    
+    /*MedicamentPrescription*/
     
     public MedicamentPrescription newMedicamentPrescription(Medicament med , int q) {
+        EntityManager em = fact.createEntityManager();
         MedicamentPrescription mp = new MedicamentPrescription();
         mp.setMedPresc(med);
         mp.setQuantite(q);
-        
-        EntityManager em = fact.createEntityManager();
+     
 	em.getTransaction( ).begin( );
         em.persist(mp);
         em.getTransaction().commit();

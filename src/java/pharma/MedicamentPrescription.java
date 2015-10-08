@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
 /**
  *
  * @author achevann
@@ -25,7 +24,6 @@ public class MedicamentPrescription implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idMedPresc;
 
-    @Column
     @ManyToOne
     private Medicament medPresc;
     

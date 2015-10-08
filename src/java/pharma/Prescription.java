@@ -41,7 +41,7 @@ public class Prescription implements Serializable {
     private String datePresc;
     
     @Column
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     List<MedicamentPrescription> medicamentsPresc;
 
     
@@ -94,9 +94,6 @@ public class Prescription implements Serializable {
     public void setMedicamentsPresc(List<MedicamentPrescription> medicamentsPresc) {
         this.medicamentsPresc = medicamentsPresc;
     }
-
-    
-    
     
     
     @Override
