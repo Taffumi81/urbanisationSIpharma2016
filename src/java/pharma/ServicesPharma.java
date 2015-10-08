@@ -97,7 +97,7 @@ public class ServicesPharma {
     
     /*Prescription*/
     
-    public Prescription newPrescription(String nomUF , String prep , String date, List<MedicamentPrescription> listMed) {
+    public Prescription newPrescription(String nomUF , String prep , String date, List<MedicamentPrescription> listMed, Admission admiP) {
         EntityManager em = fact.createEntityManager();
         Prescription p = new Prescription();
         em.getTransaction( ).begin( );
@@ -107,7 +107,7 @@ public class ServicesPharma {
         p.setPreparateur(prep);
         p.setEtat(Etat.NonValide);
         p.setDatePresc(date);
-        
+        p.setAdmiPatient(admiP);
         
         em.persist(p);
         em.getTransaction().commit();

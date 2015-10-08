@@ -145,8 +145,10 @@ public class pharmaTest {
        List<MedicamentPrescription> listMed = new ArrayList<>();
        listMed.add(mp);
        listMed.add(mp1);
+       
+       Admission a = serv.newAdmission(01,101,"Gagnaire","Patrick");
                 
-       Prescription p = serv.newPrescription("Radiologie","Prep1","07/10/2015", listMed);
+       Prescription p = serv.newPrescription("Radiologie","Prep1","07/10/2015", listMed,a);
        assertNotNull(p);
     }
 }

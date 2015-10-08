@@ -15,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -43,9 +44,20 @@ public class Prescription implements Serializable {
     @Column
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     List<MedicamentPrescription> medicamentsPresc;
+    
+    @ManyToOne
+    private Admission AdmiPatient ;
 
     
     /*Getter & Setter*/
+
+    public Admission getAdmiPatient() {
+        return AdmiPatient;
+    }
+
+    public void setAdmiPatient(Admission AdmiPatient) {
+        this.AdmiPatient = AdmiPatient;
+    }
     
     public int getIdPresc() {
         return idPresc;
