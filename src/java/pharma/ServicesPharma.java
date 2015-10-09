@@ -142,7 +142,9 @@ public class ServicesPharma {
         Prescription res = getPrescriptionByID(id);
         res.setEtat(e);
         EntityManager em = fact.createEntityManager();
-        em.flush();
+        em.getTransaction( ).begin( );
+        em.persist(res);
+        em.getTransaction().commit();
         em.close();
     }
     
@@ -168,4 +170,28 @@ public class ServicesPharma {
         em.getTransaction().commit();
         em.close();
     }
+    
+    public List<Prescription> consultWorklistPrep (String prep) {
+        EntityManager em = fact.createEntityManager();
+	TypedQuery<Prescription> query;
+        query = em.createQuery(
+                "SELECT p FROM Prescription p WHERE p.preparateur LIKE :prepName ", Prescription.class)
+                .setParameter("prepName",prep);
+        List<Prescription> res = query.getResultList();
+        em.close();
+        return res;
+    }
+    
+//    public List<Prescription> consultPrescriptionByIEP (int IEP) {
+//        EntityManager em = fact.createEntityManager();
+//        String q = "SELECT * FROM Prescription WHERE IEP = " + IEP;
+//	TypedQuery<Prescription> query = em.createQuery(q, Prescription.class);
+//        List<Prescription> res = query.getResultList();
+//        em.close();
+//        return res;
+//    }
+//    
+//    public void consultPrescriptionByIPP() {
+//        
+//    }
 }

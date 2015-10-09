@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import pharma.Etat;
 
 /**
  *
@@ -146,9 +147,32 @@ public class pharmaTest {
        listMed.add(mp);
        listMed.add(mp1);
        
-       Admission a = serv.newAdmission(01,101,"Gagnaire","Patrick");
+       List<MedicamentPrescription> listMed1 = new ArrayList<>();
+       listMed1.add(mp1);
+       
+       Admission a = serv.newAdmission(12345,101,"Gagnaire","Patrick");
+       Admission a1 = serv.newAdmission(67890,201,"Chevanne","Alexy");
                 
        Prescription p = serv.newPrescription("Radiologie","Prep1","07/10/2015", listMed,a);
        assertNotNull(p);
+//       Prescription p1 = serv.newPrescription("Cardio","Prep1","08/10/2015", listMed1,a1);
+//       assertNotNull(p1);
+//       Prescription p2 = serv.newPrescription("Chirurgie","Prep2","09/10/2015", listMed,a1);
+//       assertNotNull(p2);
+       
+//       List<Prescription> listP = serv.consultWorklistPrep("Prep1");
+//       assert(!listP.isEmpty());
+       //assert(listP.size() == 2);
+       
+//       for (Prescription pr : listP) {
+//            System.out.println(pr.toString());
+//            System.out.println("---------------");
+//        }  
+       
+//       List<Prescription> listP = serv.consultPrescriptionByIEP(12345);
+//       assert(!listP.isEmpty());
+//       assert(listP.size() == 1);
+       
+//       serv.setEtatByIDPrescription(p.getIdPresc(), Etat.Valide);
     }
 }
