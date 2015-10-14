@@ -260,11 +260,15 @@ public class pharmaTest {
 
         Admission a2 = serv.newAdmission(10111,201,"Chevanne","Alexy");
 
-        Prescription p = serv.newPrescription("Radiologie","Prep1","07/10/2015", listMed,a2);
+        Prescription p = serv.newPrescription("Radiologie","Prep1","07/10/2015", listMed);
         assertNotNull(p);
         
-        serv.setEtatPrescription(p, Etat.Valide);
+        serv.setAdmissionPrescription(p, a2);
         Prescription res = serv.getPrescriptionByID(1);
+        assert(res.getAdmiPatient().getIEP()==10111);
+        
+        serv.setEtatPrescription(p, Etat.Valide);
+        res = serv.getPrescriptionByID(1);
         assert(res.getEtat().equals(Etat.Valide));
         
         serv.setEtatPrescription(p, Etat.EnCoursPrep);
