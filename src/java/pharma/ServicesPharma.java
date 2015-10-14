@@ -149,17 +149,13 @@ public class ServicesPharma {
         return res;
     }
     
-    public void setEtatByIDPrescription (int id, Etat e) {
+    public void setEtatPrescription (Prescription p, Etat e) {
         EntityManager em = fact.createEntityManager();
-        Prescription res = getPrescriptionByID(id);
-        res.setEtat(e);
-        em.refresh(res);
-        
-//        EntityManager em = fact.createEntityManager();
-//        em.getTransaction( ).begin( );
-//        em.persist(res);
-//        em.getTransaction().commit();
-//        em.close();
+        p.setEtat(e);
+        em.getTransaction( ).begin( );
+        em.merge(p);
+        em.getTransaction().commit();
+        em.close();
     }
     
     /*MedicamentPrescription*/
