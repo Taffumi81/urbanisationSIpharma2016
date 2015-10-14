@@ -100,7 +100,6 @@ public class ServicesPharma {
     public Prescription newPrescription(String nomUF , String prep , String date, List<MedicamentPrescription> listMed, Admission admiP) {
         EntityManager em = fact.createEntityManager();
         Prescription p = new Prescription();
-        em.getTransaction( ).begin( );
         
         p.setMedicamentsPresc(listMed);
         p.setNomUF(nomUF);
@@ -109,6 +108,7 @@ public class ServicesPharma {
         p.setDatePresc(date);
         p.setAdmiPatient(admiP);
         
+        em.getTransaction().begin();
         em.persist(p);
         em.getTransaction().commit();
         em.close();
@@ -141,11 +141,11 @@ public class ServicesPharma {
     public void setEtatByIDPrescription (int id, Etat e) {
         Prescription res = getPrescriptionByID(id);
         res.setEtat(e);
-        EntityManager em = fact.createEntityManager();
-        em.getTransaction( ).begin( );
-        em.persist(res);
-        em.getTransaction().commit();
-        em.close();
+//        EntityManager em = fact.createEntityManager();
+//        em.getTransaction( ).begin( );
+//        em.persist(res);
+//        em.getTransaction().commit();
+//        em.close();
     }
     
     /*MedicamentPrescription*/
@@ -182,14 +182,16 @@ public class ServicesPharma {
         return res;
     }
     
-//    public List<Prescription> consultPrescriptionByIEP (int IEP) {
-//        EntityManager em = fact.createEntityManager();
-//        String q = "SELECT * FROM Prescription WHERE IEP = " + IEP;
-//	TypedQuery<Prescription> query = em.createQuery(q, Prescription.class);
-//        List<Prescription> res = query.getResultList();
-//        em.close();
-//        return res;
-//    }
+    public List<Prescription> consultPrescriptionByIEP (int IEP) {
+        EntityManager em = fact.createEntityManager();
+	TypedQuery<Prescription> query;
+        query = em.createQuery(
+                "SELECT p FROM Prescription p WHERE p.IEP LIKE :admiIEP ", Prescription.class)
+                .setParameter("admiIEP",IEP);
+        List<Prescription> res = query.getResultList();
+        em.close();
+        return res;
+    }
 //    
 //    public void consultPrescriptionByIPP() {
 //        

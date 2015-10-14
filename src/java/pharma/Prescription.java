@@ -148,7 +148,7 @@ public class Prescription implements Serializable {
 
     @Override
     public String toString() {
-        return "Prescription{" + "idPresc=" + idPresc + ", nomUF=" + nomUF + ", etat=" + etat + ", preparateur=" + preparateur + ", datePresc=" + datePresc + '}';
+        return "Prescription n°" + idPresc + ", nomUF=" + nomUF + ", etat=" + etat + ", preparateur=" + preparateur + ", datePresc=" + datePresc + "\n" + getMedicamentsPresc() ;
     }
     
     

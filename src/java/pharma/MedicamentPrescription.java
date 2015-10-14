@@ -89,6 +89,6 @@ public class MedicamentPrescription implements Serializable {
 
     @Override
     public String toString() {
-        return "MedicamentPrescription{" + "idMedPresc=" + idMedPresc + ", medPresc=" + medPresc + ", quantite=" + quantite + '}';
+        return "Medicament prescrit n°" + idMedPresc + ", medPresc=" + medPresc + ", quantite=" + quantite + '\n';
     }
 }
