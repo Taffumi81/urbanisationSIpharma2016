@@ -176,46 +176,66 @@ public class pharmaTest {
     
     @Test
     public void ConsultListe() {
-       clean();
-       ServicesPharma serv = new ServicesPharma(DatabaseUtils.fact());
-       Medicament med = serv.newMedicament("Test1","Orale",300);
-       assertNotNull(med);
-       Medicament med1 = serv.newMedicament("Test2","Orale",200);
-       assertNotNull(med1);
-       Medicament med2 = serv.newMedicament("Test3","Anale",250);
-       assertNotNull(med1);
-        
-       MedicamentPrescription mp = serv.newMedicamentPrescription(med, 10);
-       assertNotNull(mp);
-       MedicamentPrescription mp1 = serv.newMedicamentPrescription(med1, 15);
-       assertNotNull(mp1);
-       MedicamentPrescription mp2 = serv.newMedicamentPrescription(med1, 15);
-       assertNotNull(mp2);
-       MedicamentPrescription mp3 = serv.newMedicamentPrescription(med2, 5);
-       assertNotNull(mp3);
-        
-       List<MedicamentPrescription> listMed = new ArrayList<>();
-       listMed.add(mp);
-       listMed.add(mp1);
-       
-       List<MedicamentPrescription> listMed1 = new ArrayList<>();
-       listMed1.add(mp2);
-       listMed1.add(mp3);
+        clean();
+        ServicesPharma serv = new ServicesPharma(DatabaseUtils.fact());
+        Medicament med = serv.newMedicament("Test1","Orale",300);
+        assertNotNull(med);
+        Medicament med1 = serv.newMedicament("Test2","Orale",200);
+        assertNotNull(med1);
+        Medicament med2 = serv.newMedicament("Test3","Anale",250);
+        assertNotNull(med1);
 
-       Admission a = serv.newAdmission(12345,101,"Gagnaire","Patrick");
-       Admission a1 = serv.newAdmission(67890,201,"Chevanne","Alexy");
-                
-       Prescription p = serv.newPrescription("Radiologie","Prep1","07/10/2015", listMed,a);
-       assertNotNull(p);
-       Prescription p1 = serv.newPrescription("Cardio","Prep1","08/10/2015", listMed1,a1);
-       assertNotNull(p1);
+        MedicamentPrescription mp = serv.newMedicamentPrescription(med, 10);
+        assertNotNull(mp);
+        MedicamentPrescription mp1 = serv.newMedicamentPrescription(med1, 15);
+        assertNotNull(mp1);
+        MedicamentPrescription mp2 = serv.newMedicamentPrescription(med1, 15);
+        assertNotNull(mp2);
+        MedicamentPrescription mp3 = serv.newMedicamentPrescription(med2, 5);
+        assertNotNull(mp3);
+
+        List<MedicamentPrescription> listMed = new ArrayList<>();
+        listMed.add(mp);
+        listMed.add(mp1);
+
+        List<MedicamentPrescription> listMed1 = new ArrayList<>();
+        listMed1.add(mp2);
+        listMed1.add(mp3);
+
+        Admission a = serv.newAdmission(12345,101,"Gagnaire","Patrick");
+        Admission a1 = serv.newAdmission(67890,201,"Chevanne","Alexy");
+        Admission a2 = serv.newAdmission(10111,201,"Chevanne","Alexy");
+
+        Prescription p = serv.newPrescription("Radiologie","Prep1","07/10/2015", listMed,a2);
+        assertNotNull(p);
+        Prescription p1 = serv.newPrescription("Cardio","Prep1","08/10/2015", listMed1,a1);
+        assertNotNull(p1);
         
-       List<Prescription> listP = serv.consultWorklistPrep("Prep1");
-       assert(listP.size() == 2);
-       
-       for (Prescription pr : listP) {
-            System.out.println(pr.toString());
-            System.out.println("---------------");
-       } 
+        List<Prescription> workList = serv.consultWorklistPrep("Prep1");
+        assert(workList.size() == 2);
+
+        System.out.println("\nWorklist du préparateur prep1");
+        for (Prescription pr : workList) {
+             System.out.println(pr.toString());
+             System.out.println("---------------");
+        }
+
+        List<Prescription> listbyIEP = serv.consultPrescriptionByIEP(67890);
+        assert(listbyIEP.size() == 1);
+        
+        System.out.println("\nListe des prescriptions de l'IEP 67890");
+        for (Prescription pr : listbyIEP) {
+             System.out.println(pr.toString());
+             System.out.println("---------------");
+        }
+        
+        List<Prescription> listbyIPP = serv.consultPrescriptionByIPP(201);
+        assert(listbyIPP.size() == 2);
+        
+        System.out.println("\nListe des prescriptions de l'IPP 201");
+        for (Prescription pr : listbyIPP) {
+             System.out.println(pr.toString());
+             System.out.println("---------------");
+        }
     }
 }

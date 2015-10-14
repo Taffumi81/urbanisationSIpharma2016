@@ -95,6 +95,17 @@ public class ServicesPharma {
         return res;
     }
     
+    public List<Admission> getAdmissionByIPP (int IPP) {
+        EntityManager em = fact.createEntityManager();
+	TypedQuery<Admission> query;
+        query = em.createQuery(
+                "SELECT a FROM Admission a WHERE a.IPP LIKE :IPP ", Admission.class)
+                .setParameter("IPP",IPP);
+        List<Admission> res = query.getResultList();
+        em.close();
+        return res;
+    }
+    
     /*Prescription*/
     
     public Prescription newPrescription(String nomUF , String prep , String date, List<MedicamentPrescription> listMed, Admission admiP) {
@@ -139,8 +150,11 @@ public class ServicesPharma {
     }
     
     public void setEtatByIDPrescription (int id, Etat e) {
+        EntityManager em = fact.createEntityManager();
         Prescription res = getPrescriptionByID(id);
         res.setEtat(e);
+        em.refresh(res);
+        
 //        EntityManager em = fact.createEntityManager();
 //        em.getTransaction( ).begin( );
 //        em.persist(res);
@@ -182,18 +196,36 @@ public class ServicesPharma {
         return res;
     }
     
-    public List<Prescription> consultPrescriptionByIEP (int IEP) {
+    public List<Prescription> consultPrescriptionByAdmission (Admission admiIEP) {
         EntityManager em = fact.createEntityManager();
 	TypedQuery<Prescription> query;
         query = em.createQuery(
-                "SELECT p FROM Prescription p WHERE p.IEP LIKE :admiIEP ", Prescription.class)
-                .setParameter("admiIEP",IEP);
+                "SELECT p FROM Prescription p WHERE p.AdmiPatient LIKE :admiIEP ", Prescription.class)
+                .setParameter("admiIEP",admiIEP);
         List<Prescription> res = query.getResultList();
         em.close();
         return res;
     }
-//    
-//    public void consultPrescriptionByIPP() {
-//        
-//    }
+    
+    
+    public List<Prescription> consultPrescriptionByIEP (int IEP) {
+        EntityManager em = fact.createEntityManager();
+        Admission admiIEP = getAdmissionByIEP(IEP);
+	TypedQuery<Prescription> query;
+        query = em.createQuery(
+                "SELECT p FROM Prescription p WHERE p.AdmiPatient LIKE :admiIEP ", Prescription.class)
+                .setParameter("admiIEP",admiIEP);
+        List<Prescription> res = query.getResultList();
+        em.close();
+        return res;
+    }
+    
+    public List<Prescription> consultPrescriptionByIPP(int IPP) {
+        ArrayList<Prescription> listPresc = new ArrayList();
+        List<Admission> admiIPP = getAdmissionByIPP(IPP);
+        for (Admission ad : admiIPP) {
+            listPresc.addAll(consultPrescriptionByAdmission(ad));
+        }
+        return listPresc;
+    }
 }
