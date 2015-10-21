@@ -288,7 +288,7 @@ public class pharmaTest {
     @Test
     public void intercationsMedicament() {
         
-        //clean();
+        clean();
         ServicesPharma serv = new ServicesPharma(DatabaseUtils.fact());
         Medicament med = serv.newMedicament("Test1","Orale",300);
         assertNotNull(med);
@@ -300,19 +300,15 @@ public class pharmaTest {
         List<Medicament> res = serv.consultStock();
         assert(!res.isEmpty());
         assert(res.size() == 3);
-
-//        interactionsMed.add(med1);
-//        interactionsMed.add(med2);
         
-//        serv.setInteractionsMedic(med, res);
+        serv.setInteractionsMedic(med, med2);
         
-//        for (Medicament m : res) {
-//            System.out.println(m.getId());
-//            System.out.println(m.getNomMed());
-//            System.out.println(m.getAdministrationMed());
-//            System.out.println(m.getStockMed());
-//            System.out.println("---------------");
-//        }
+        Admission a1 = serv.newAdmission(67890,201,"Chevanne","Alexy");
         
+        Prescription p = serv.newPrescription("Radiologie","Prep1","07/10/2015", med , 10);
+        
+        assert(serv.addMedicamentPresc(p, med2, 14)==true);
+        assert(serv.addMedicamentPresc(p, med1, 19)==false);
+     
     }
 }
