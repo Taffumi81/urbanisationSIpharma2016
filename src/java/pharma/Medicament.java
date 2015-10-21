@@ -6,12 +6,16 @@
 package pharma;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -34,6 +38,10 @@ public class Medicament implements Serializable {
     
     @Column
     private int stockMed;
+    
+    @Column
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    List<Medicament> interactionsMedic;
     
     /*Getter et setter*/
     public String getNomMed() {
@@ -68,6 +76,24 @@ public class Medicament implements Serializable {
         this.id = id;
     }
 
+    public List<Medicament> getListInteractionsMedic() {
+        return interactionsMedic;
+    }
+
+    public void setListInteractionsMedic(List<Medicament> interactionsMedic) {
+        this.interactionsMedic = interactionsMedic;
+    }
+    
+    public void addInteractionMedic (Medicament m) {
+        this.interactionsMedic.add(m);
+    }
+    
+    public void delInteractionMedic (Medicament m) {
+        if(this.interactionsMedic.contains(m)) {
+            this.interactionsMedic.remove(m);
+        }
+    }
+        
     @Override
     public int hashCode() {
         int hash = 7;

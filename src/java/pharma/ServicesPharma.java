@@ -19,9 +19,11 @@ import org.hibernate.Session;
 public class ServicesPharma {
     
     EntityManagerFactory fact;
+    EntityManager em;
     
     public ServicesPharma(EntityManagerFactory fact) {
         this.fact = fact;
+        this.em = fact.createEntityManager();
     }
     
     /*Medicaments*/
@@ -31,28 +33,39 @@ public class ServicesPharma {
         m.setNomMed(nomMed);
         m.setAdministrationMed(adminMed);
         m.setStockMed(stockMedInit);
-        EntityManager em = fact.createEntityManager();
+        List<Medicament> listMed = new ArrayList (); 
+        m.setListInteractionsMedic(listMed);
 	em.getTransaction( ).begin( );
         em.persist(m);
         em.getTransaction().commit();
-        em.close();
         return m;
     }
     
     public List<Medicament> consultStock() {
-        EntityManager em = fact.createEntityManager();
 	TypedQuery<Medicament> query = em.createQuery("SELECT m FROM Medicament m", Medicament.class);
         List<Medicament> res = query.getResultList();
-        em.close();
         return res;
     }
     
     public void deleteAllMedicaments() {
-        EntityManager em = fact.createEntityManager();
         em.getTransaction( ).begin( );
         em.createQuery("DELETE FROM Medicament").executeUpdate();
         em.getTransaction().commit();
-        em.close();
+    }
+    
+    //Ajoute une interaction entre deux médicament (dans les deux sens)
+    public void setInteractionsMedic (Medicament m, Medicament m1) {
+        m.addInteractionMedic(m1);
+        m1.addInteractionMedic(m);
+        em.getTransaction( ).begin( );
+        em.persist(m);
+        em.getTransaction().commit();
+    }
+    
+    //Supprime une interaction entre deux médicament (dans les deux sens)
+    public void deleteInteractionsMedic (Medicament m , Medicament m1) {
+        m.delInteractionMedic(m1);
+        m1.delInteractionMedic(m);
     }
     
     /*Admission*/
@@ -63,53 +76,42 @@ public class ServicesPharma {
         a.setIEP(IEP);
         a.setIPP(IPP);
         a.setNomPatient(nom);
-        a.setPrenomPatient(prenom);  
-        EntityManager em = fact.createEntityManager();
+        a.setPrenomPatient(prenom);
 	em.getTransaction( ).begin( );
         em.persist(a);
         em.getTransaction().commit();
-        em.close();
         return a;
     }
     
     public List<Admission> getAllAdmission() {
-        EntityManager em = fact.createEntityManager();
 	TypedQuery<Admission> query = em.createQuery("SELECT a FROM Admission a", Admission.class);
         List<Admission> res = query.getResultList();
-        em.close();
         return res;
     }
     
     public void deleteAllAdmission() {
-        EntityManager em = fact.createEntityManager();
         em.getTransaction( ).begin( );
         em.createQuery("DELETE FROM Admission").executeUpdate();
         em.getTransaction().commit();
-        em.close();
     }
     
     public Admission getAdmissionByIEP (int IEP) {
-        EntityManager em = fact.createEntityManager();
 	Admission res = em.find( Admission.class, IEP );
-        em.close();
         return res;
     }
     
     public List<Admission> getAdmissionByIPP (int IPP) {
-        EntityManager em = fact.createEntityManager();
 	TypedQuery<Admission> query;
         query = em.createQuery(
                 "SELECT a FROM Admission a WHERE a.IPP LIKE :IPP ", Admission.class)
                 .setParameter("IPP",IPP);
         List<Admission> res = query.getResultList();
-        em.close();
         return res;
     }
     
     /*Prescription*/
     
     public Prescription newPrescription(String nomUF , String prep , String date, List<MedicamentPrescription> listMed) {
-        EntityManager em = fact.createEntityManager();
         Prescription p = new Prescription();
         
         p.setMedicamentsPresc(listMed);
@@ -117,60 +119,47 @@ public class ServicesPharma {
         p.setPreparateur(prep);
         p.setEtat(Etat.NonValide);
         p.setDatePresc(date);
-//        p.setAdmiPatient(admiP);
         
         em.getTransaction().begin();
         em.persist(p);
         em.getTransaction().commit();
-        em.close();
         return p;
     }
     
     public List<Prescription> getAllPrescription() {
-        EntityManager em = fact.createEntityManager();
 	TypedQuery<Prescription> query = em.createQuery("SELECT p FROM Prescription p", Prescription.class);
         List<Prescription> res = query.getResultList();
-        em.close();
         return res;
     }
     
     public void deleteAllPrescription() {
-        EntityManager em = fact.createEntityManager();
         em.getTransaction( ).begin( );
         em.createQuery("DELETE FROM Prescription").executeUpdate();
         em.getTransaction().commit();
-        em.close();
     }
     
     public Prescription getPrescriptionByID (int id) {
-        EntityManager em = fact.createEntityManager();
 	Prescription res = em.find( Prescription.class, id );
-        em.close();
         return res;
     }
     
     public void setEtatPrescription (Prescription p, Etat e) {
-        EntityManager em = fact.createEntityManager();
         p.setEtat(e);
         em.getTransaction( ).begin( );
         em.merge(p);
         em.getTransaction().commit();
-        em.close();
     }
     
     public void setAdmissionPrescription (Prescription p, Admission a) {
-        EntityManager em = fact.createEntityManager();
         p.setAdmiPatient(a);
         em.getTransaction( ).begin( );
-        em.merge(p);
+        em.persist(p);
         em.getTransaction().commit();
-        em.close();
     }
     
     /*MedicamentPrescription*/
     
     public MedicamentPrescription newMedicamentPrescription(Medicament med , int q) {
-        EntityManager em = fact.createEntityManager();
         MedicamentPrescription mp = new MedicamentPrescription();
         mp.setMedPresc(med);
         mp.setQuantite(q);
@@ -178,50 +167,41 @@ public class ServicesPharma {
 	em.getTransaction( ).begin( );
         em.persist(mp);
         em.getTransaction().commit();
-        em.close();
         return mp;
     }
     
     public void deleteAllMedicamentPrescription() {
-        EntityManager em = fact.createEntityManager();
         em.getTransaction( ).begin( );
         em.createQuery("DELETE FROM MedicamentPrescription").executeUpdate();
         em.getTransaction().commit();
-        em.close();
     }
     
     public List<Prescription> consultWorklistPrep (String prep) {
-        EntityManager em = fact.createEntityManager();
 	TypedQuery<Prescription> query;
         query = em.createQuery(
                 "SELECT p FROM Prescription p WHERE p.preparateur LIKE :prepName ", Prescription.class)
                 .setParameter("prepName",prep);
         List<Prescription> res = query.getResultList();
-        em.close();
         return res;
     }
     
     public List<Prescription> consultPrescriptionByAdmission (Admission admiIEP) {
-        EntityManager em = fact.createEntityManager();
 	TypedQuery<Prescription> query;
         query = em.createQuery(
                 "SELECT p FROM Prescription p WHERE p.AdmiPatient LIKE :admiIEP ", Prescription.class)
                 .setParameter("admiIEP",admiIEP);
         List<Prescription> res = query.getResultList();
-        em.close();
         return res;
     }
     
     
     public List<Prescription> consultPrescriptionByIEP (int IEP) {
-        EntityManager em = fact.createEntityManager();
         Admission admiIEP = getAdmissionByIEP(IEP);
 	TypedQuery<Prescription> query;
         query = em.createQuery(
                 "SELECT p FROM Prescription p WHERE p.AdmiPatient LIKE :admiIEP ", Prescription.class)
                 .setParameter("admiIEP",admiIEP);
         List<Prescription> res = query.getResultList();
-        em.close();
         return res;
     }
     
