@@ -99,12 +99,16 @@ public class Prescription implements Serializable {
         this.datePresc = datePresc;
     }
 
-    public List<MedicamentPrescription> getMedicamentsPresc() {
+    public List<MedicamentPrescription> getListMedicamentsPresc() {
         return medicamentsPresc;
     }
 
-    public void setMedicamentsPresc(List<MedicamentPrescription> medicamentsPresc) {
+    public void setListMedicamentsPresc(List<MedicamentPrescription> medicamentsPresc) {
         this.medicamentsPresc = medicamentsPresc;
+    }
+    
+    public void addMedicamentPresc(MedicamentPrescription medicamentPresc) {
+        this.medicamentsPresc.add(medicamentPresc);
     }
     
     
@@ -148,7 +152,7 @@ public class Prescription implements Serializable {
 
     @Override
     public String toString() {
-        return "Prescription n°" + idPresc + ", nomUF=" + nomUF + ", etat=" + etat + ", preparateur=" + preparateur + ", datePresc=" + datePresc + "\n" + getMedicamentsPresc() ;
+        return "Prescription n°" + idPresc + ", nomUF=" + nomUF + ", etat=" + etat + ", preparateur=" + preparateur + ", datePresc=" + datePresc + "\n" + getListMedicamentsPresc() ;
     }
     
     

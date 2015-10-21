@@ -68,6 +68,15 @@ public class ServicesPharma {
         m1.delInteractionMedic(m);
     }
     
+    //Retoune vrai si on detecte une interaction
+    public boolean detectInteractionsMedic (Medicament m , Medicament m1) {
+        boolean interactionDetect = false;
+        if (m.interactionsMedic.contains(m1)) {
+            interactionDetect = true;
+        }
+        return interactionDetect;
+    }
+    
     /*Admission*/
     
     public Admission newAdmission(int IEP , int IPP , String nom , String prenom) {
@@ -111,10 +120,13 @@ public class ServicesPharma {
     
     /*Prescription*/
     
-    public Prescription newPrescription(String nomUF , String prep , String date, List<MedicamentPrescription> listMed) {
+    public Prescription newPrescription(String nomUF , String prep , String date, Medicament med , int q) {
         Prescription p = new Prescription();
+        List <MedicamentPrescription> listMedP = new ArrayList ();
+        MedicamentPrescription medP = newMedicamentPrescription(med, q);
         
-        p.setMedicamentsPresc(listMed);
+        p.setListMedicamentsPresc(listMedP);
+        p.addMedicamentPresc(medP);
         p.setNomUF(nomUF);
         p.setPreparateur(prep);
         p.setEtat(Etat.NonValide);
@@ -157,6 +169,38 @@ public class ServicesPharma {
         em.getTransaction().commit();
     }
     
+    public void setMedPrescPrescription (Prescription p, MedicamentPrescription mp) {
+        p.addMedicamentPresc(mp);
+        em.getTransaction( ).begin( );
+        em.persist(p);
+        em.getTransaction().commit();
+    }
+    
+    
+    //Retourne false s'il n'y pas d'interaction dans la prescription
+    public boolean detectInteractMedPresc (Prescription p, Medicament m) {
+        boolean interactionDetect = false;
+                
+        for (MedicamentPrescription medP : p.getListMedicamentsPresc() ) {
+            Medicament med = medP.getMedPresc();
+            if(detectInteractionsMedic(med, m)) {
+                interactionDetect = true;
+                break;
+            }
+        }
+        return interactionDetect;
+    }
+    
+    //Prend un medicament créer un medicamentPresc et l'ajoute à la prescription
+    //Retourne false si pas d'interaction et true s'il en detecte une
+    public boolean addMedicamentPresc (Prescription p, Medicament m, int q) {
+        boolean interactionDetect = detectInteractMedPresc (p,m);
+        if (!interactionDetect) {
+            setMedPrescPrescription(p,newMedicamentPrescription(m, q));
+            
+        }
+        return interactionDetect;
+    }
     /*MedicamentPrescription*/
     
     public MedicamentPrescription newMedicamentPrescription(Medicament med , int q) {
