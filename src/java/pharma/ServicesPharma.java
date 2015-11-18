@@ -41,6 +41,22 @@ public class ServicesPharma {
         return m;
     }
     
+    public Medicament createMedicament(String nomMed , String adminMed , int stockMedInit) {
+        Medicament m = new Medicament();
+        m.setNomMed(nomMed);
+        m.setAdministrationMed(adminMed);
+        m.setStockMed(stockMedInit);
+        List<Medicament> listMed = new ArrayList (); 
+        m.setListInteractionsMedic(listMed);
+        return m;
+    }
+    
+    public void newMedicament (Medicament m) {
+        em.getTransaction( ).begin( );
+        em.persist(m);
+        em.getTransaction().commit();
+    }
+    
     public List<Medicament> consultStock() {
 	TypedQuery<Medicament> query = em.createQuery("SELECT m FROM Medicament m", Medicament.class);
         List<Medicament> res = query.getResultList();
@@ -48,8 +64,17 @@ public class ServicesPharma {
     }
     
     public void deleteAllMedicaments() {
+        //Suprimmer ses interactions aussi !!!
         em.getTransaction( ).begin( );
         em.createQuery("DELETE FROM Medicament").executeUpdate();
+        em.getTransaction().commit();
+    }
+    
+    public void deleteMedicament(int id) {
+        //Suprimmer ses interactions aussi !!!
+        Medicament med = em.find(Medicament.class, id);
+        em.getTransaction( ).begin( );
+        em.remove(med);
         em.getTransaction().commit();
     }
     
@@ -92,6 +117,21 @@ public class ServicesPharma {
         return a;
     }
     
+    public Admission createAdmission(int IEP , int IPP , String nom , String prenom) {
+        Admission a = new Admission();
+        a.setIEP(IEP);
+        a.setIPP(IPP);
+        a.setNomPatient(nom);
+        a.setPrenomPatient(prenom);
+        return a;
+    }
+    
+    public void newAdmission(Admission a){
+	em.getTransaction( ).begin( );
+        em.persist(a);
+        em.getTransaction().commit();
+    }
+    
     public List<Admission> getAllAdmission() {
 	TypedQuery<Admission> query = em.createQuery("SELECT a FROM Admission a", Admission.class);
         List<Admission> res = query.getResultList();
@@ -101,6 +141,13 @@ public class ServicesPharma {
     public void deleteAllAdmission() {
         em.getTransaction( ).begin( );
         em.createQuery("DELETE FROM Admission").executeUpdate();
+        em.getTransaction().commit();
+    }
+    
+    public void deleteAdmission(int id) {
+        Admission a = em.find(Admission.class, id);
+        em.getTransaction( ).begin( );
+        em.remove(a);
         em.getTransaction().commit();
     }
     
@@ -138,6 +185,28 @@ public class ServicesPharma {
         return p;
     }
     
+    public Prescription createPrescription(String nomUF , String prep , String date, Medicament med , int q) {
+        Prescription p = new Prescription();
+        List <MedicamentPrescription> listMedP = new ArrayList ();
+        MedicamentPrescription medP = newMedicamentPrescription(med, q);
+        
+        p.setListMedicamentsPresc(listMedP);
+        p.addMedicamentPresc(medP);
+        p.setNomUF(nomUF);
+        p.setPreparateur(prep);
+        p.setEtat(Etat.NonValide);
+        p.setDatePresc(date);
+        return p;
+    }
+    
+    public Prescription newPrescription(Prescription p){
+        em.getTransaction().begin();
+        em.persist(p);
+        em.getTransaction().commit();
+        return p;
+    }
+    
+    
     public List<Prescription> getAllPrescription() {
 	TypedQuery<Prescription> query = em.createQuery("SELECT p FROM Prescription p", Prescription.class);
         List<Prescription> res = query.getResultList();
@@ -147,6 +216,13 @@ public class ServicesPharma {
     public void deleteAllPrescription() {
         em.getTransaction( ).begin( );
         em.createQuery("DELETE FROM Prescription").executeUpdate();
+        em.getTransaction().commit();
+    }
+    
+    public void deletePrescription(int id) {
+        Prescription p = em.find(Prescription.class, id);
+        em.getTransaction( ).begin( );
+        em.remove(p);
         em.getTransaction().commit();
     }
     
@@ -160,6 +236,12 @@ public class ServicesPharma {
         em.getTransaction( ).begin( );
         em.merge(p);
         em.getTransaction().commit();
+    }
+    
+    public void updatePrescription (Prescription p) {
+        em.getTransaction( ).begin( );
+        em.merge(p);
+        em.getTransaction().commit(); 
     }
     
     public void setAdmissionPrescription (Prescription p, Admission a) {
@@ -214,9 +296,29 @@ public class ServicesPharma {
         return mp;
     }
     
+    public MedicamentPrescription createMedicamentPrescription(Medicament med , int q) {
+        MedicamentPrescription mp = new MedicamentPrescription();
+        mp.setMedPresc(med);
+        mp.setQuantite(q);
+        return mp;
+    }
+    
+    public void newMedicamentPrescription(MedicamentPrescription mp){
+	em.getTransaction( ).begin( );
+        em.persist(mp);
+        em.getTransaction().commit();
+    }
+    
     public void deleteAllMedicamentPrescription() {
         em.getTransaction( ).begin( );
         em.createQuery("DELETE FROM MedicamentPrescription").executeUpdate();
+        em.getTransaction().commit();
+    }
+    
+    public void deleteMedicamentPrescription(int id) {
+        MedicamentPrescription mp = em.find(MedicamentPrescription.class, id);
+        em.getTransaction( ).begin( );
+        em.remove(mp);
         em.getTransaction().commit();
     }
     

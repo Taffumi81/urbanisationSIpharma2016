@@ -139,48 +139,48 @@ public class pharmaTest {
 //        }
 //    }
     
-//    @Test
-//    public void Prescription() {
-//       clean();
-//       ServicesPharma serv = new ServicesPharma(DatabaseUtils.fact());
-//       Medicament med = serv.newMedicament("Test1","Orale",300);
-//       assertNotNull(med);
-//       Medicament med1 = serv.newMedicament("Test2","Orale",200);
-//       assertNotNull(med1);
-//       Medicament med2 = serv.newMedicament("Test3","Anale",250);
-//       assertNotNull(med1);
-//        
-//       MedicamentPrescription mp = serv.newMedicamentPrescription(med, 10);
-//       assertNotNull(mp);
-//       MedicamentPrescription mp1 = serv.newMedicamentPrescription(med1, 15);
-//       assertNotNull(mp1);
-//       MedicamentPrescription mp2 = serv.newMedicamentPrescription(med1, 15);
-//       assertNotNull(mp2);
-//       MedicamentPrescription mp3 = serv.newMedicamentPrescription(med2, 5);
-//       assertNotNull(mp3);
-//        
-//       List<MedicamentPrescription> listMed = new ArrayList<>();
-//       listMed.add(mp);
-//       listMed.add(mp1);
-//       
-//       List<MedicamentPrescription> listMed1 = new ArrayList<>();
-//       listMed1.add(mp2);
-//       listMed1.add(mp3);
-//
-//       Admission a = serv.newAdmission(12345,101,"Gagnaire","Patrick");
-//       Admission a1 = serv.newAdmission(67890,201,"Chevanne","Alexy");
-//                
-//       Prescription p = serv.newPrescription("Radiologie","Prep1","07/10/2015", listMed,a);
-//       assertNotNull(p);
-//       Prescription p1 = serv.newPrescription("Cardio","Prep1","08/10/2015", listMed1,a1);
-//       assertNotNull(p1);
-//       
-////       List<Prescription> listP = serv.consultPrescriptionByIEP(12345);
-////       assert(!listP.isEmpty());
-////       assert(listP.size() == 1);
-//       
-////       serv.setEtatByIDPrescription(p.getIdPresc(), Etat.Valide);
-//    }
+    @Test
+    public void Prescription() {
+       clean();
+       ServicesPharma serv = new ServicesPharma(DatabaseUtils.fact());
+       Medicament med = serv.newMedicament("Test1","Orale",300);
+       assertNotNull(med);
+       Medicament med1 = serv.newMedicament("Test2","Orale",200);
+       assertNotNull(med1);
+       Medicament med2 = serv.newMedicament("Test3","Anale",250);
+       assertNotNull(med1);
+        
+       MedicamentPrescription mp = serv.newMedicamentPrescription(med, 10);
+       assertNotNull(mp);
+       MedicamentPrescription mp1 = serv.newMedicamentPrescription(med1, 15);
+       assertNotNull(mp1);
+       MedicamentPrescription mp2 = serv.newMedicamentPrescription(med1, 15);
+       assertNotNull(mp2);
+       MedicamentPrescription mp3 = serv.newMedicamentPrescription(med2, 5);
+       assertNotNull(mp3);
+        
+       List<MedicamentPrescription> listMed = new ArrayList<>();
+       listMed.add(mp);
+       listMed.add(mp1);
+       
+       List<MedicamentPrescription> listMed1 = new ArrayList<>();
+       listMed1.add(mp2);
+       listMed1.add(mp3);
+
+       Admission a = serv.newAdmission(12345,101,"Gagnaire","Patrick");
+       Admission a1 = serv.newAdmission(67890,201,"Chevanne","Alexy");
+                
+       Prescription p = serv.newPrescription("Radiologie","Prep1","07/10/2015", med,10);
+       assertNotNull(p);
+       Prescription p1 = serv.newPrescription("Cardio","Prep1","08/10/2015", med1,15);
+       assertNotNull(p1);
+       
+//       List<Prescription> listP = serv.consultPrescriptionByIEP(12345);
+//       assert(!listP.isEmpty());
+//       assert(listP.size() == 1);
+       
+//       serv.setEtatByIDPrescription(p.getIdPresc(), Etat.Valide);
+    }
     
     
 //    @Test
@@ -285,30 +285,30 @@ public class pharmaTest {
 //        assert(res.getEtat().equals(Etat.EnCoursPrep));
 //    }
     
-    @Test
-    public void intercationsMedicament() {
-        
-        clean();
-        ServicesPharma serv = new ServicesPharma(DatabaseUtils.fact());
-        Medicament med = serv.newMedicament("Test1","Orale",300);
-        assertNotNull(med);
-        Medicament med1 = serv.newMedicament("Test2","Orale",100);
-        assertNotNull(med1);
-        Medicament med2 = serv.newMedicament("Test3","Anale",150);
-        assertNotNull(med2);
-        
-        List<Medicament> res = serv.consultStock();
-        assert(!res.isEmpty());
-        assert(res.size() == 3);
-        
-        serv.setInteractionsMedic(med, med2);
-        
-        Admission a1 = serv.newAdmission(67890,201,"Chevanne","Alexy");
-        
-        Prescription p = serv.newPrescription("Radiologie","Prep1","07/10/2015", med , 10);
-        
-        assert(serv.addMedicamentPresc(p, med2, 14)==true);
-        assert(serv.addMedicamentPresc(p, med1, 19)==false);
-     
-    }
+//    @Test
+//    public void intercationsMedicament() {
+//        
+//        clean();
+//        ServicesPharma serv = new ServicesPharma(DatabaseUtils.fact());
+//        Medicament med = serv.newMedicament("Test1","Orale",300);
+//        assertNotNull(med);
+//        Medicament med1 = serv.newMedicament("Test2","Orale",100);
+//        assertNotNull(med1);
+//        Medicament med2 = serv.newMedicament("Test3","Anale",150);
+//        assertNotNull(med2);
+//        
+//        List<Medicament> res = serv.consultStock();
+//        assert(!res.isEmpty());
+//        assert(res.size() == 3);
+//        
+//        serv.setInteractionsMedic(med, med2);
+//        
+//        Admission a1 = serv.newAdmission(67890,201,"Chevanne","Alexy");
+//        
+//        Prescription p = serv.newPrescription("Radiologie","Prep1","07/10/2015", med , 10);
+//        
+//        assert(serv.addMedicamentPresc(p, med2, 14)==true);
+//        assert(serv.addMedicamentPresc(p, med1, 19)==false);
+//     
+//    }
 }
