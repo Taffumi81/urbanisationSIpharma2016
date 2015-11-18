@@ -59,19 +59,19 @@ public class RestServicesPharma {
         return serv.getAllAdmission();
     }
     
-//    @GET
-//    @Path("admissionsiep/{iep}")
-//    @Produces("application/json")
-//    public Admission getAdmiByIEP(@PathParam("iep") int iep) {
-//        return serv.getAdmissionByIEP(iep);
-//    }
-//    
-//    @GET
-//    @Path("admissionsipp/{ipp}")
-//    @Produces("application/json")
-//    public List<Admission> getAdmiByIPP(@PathParam("ipp") int ipp) {
-//        return serv.getAdmissionByIPP(ipp);
-//    }
+    @GET
+    @Path("admissions/iep/{id}")
+    @Produces("application/json")
+    public Admission getAdmiByIEP(@PathParam("id") int iep) {
+        return serv.getAdmissionByIEP(iep);
+    }
+    
+    @GET
+    @Path("admissions/ipp/{id}")
+    @Produces("application/json")
+    public List<Admission> getAdmiByIPP(@PathParam("id") int ipp) {
+        return serv.getAdmissionByIPP(ipp);
+    }
     
     @GET
     @Path("prescriptions")
@@ -81,52 +81,52 @@ public class RestServicesPharma {
         return serv.getAllPrescription();
     }
     
-//    @GET
-//    @Path("prescriptions/{id}")
-//    @Produces("application/json")
-//    public Prescription getPrescById(@PathParam("id") int id) {
-//        return serv.getPrescriptionByID(id);
-//    }
-//    
-//    @GET
-//    @Path("prescriptions/{prep}")
-//    @Produces("application/json")
-//    public List<Prescription> getWorklistPrep(@PathParam("prep") String prep) {
-//        return serv.consultWorklistPrep(prep);
-//    }
+    @GET
+    @Path("prescriptions/{id}")
+    @Produces("application/json")
+    public Prescription getPrescById(@PathParam("id") int id) {
+        return serv.getPrescriptionByID(id);
+    }
+    
+    @GET
+    @Path("prescriptions/prep/{prep}")
+    @Produces("application/json")
+    public List<Prescription> getWorklistPrep(@PathParam("prep") String prep) {
+        return serv.consultWorklistPrep(prep);
+    }
 //    
 //    //NEW
 //    
-//    @POST
-//    @Path("medicaments")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces("application/json")
-//    public Medicament newMedic(Medicament m) {
-//        serv.newMedicament(m);
-//        System.out.println("id:"+m.getId());
-//        return m;
-//    }
-//    
-//    @POST
-//    @Path("admissions")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces("application/json")
-//    public Admission newAdmi(Admission a) {
-//        serv.newAdmission(a);
-//        System.out.println("id:"+a.getId());
-//        return a;
-//    }
-//    
-//    @POST
-//    @Path("medicpresc")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces("application/json")
-//    public MedicamentPrescription newMedPresc(MedicamentPrescription mp) {
-//        serv.newMedicamentPrescription(mp);
-//        System.out.println("id:"+mp.getIdMedPresc());
-//        return mp;
-//    }
-//    
+    @POST
+    @Path("medicaments")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public Medicament newMedic(Medicament m) {
+        serv.newMedicament(m);
+        System.out.println("id:"+m.getId());
+        return m;
+    }
+    
+    @POST
+    @Path("admissions")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public Admission newAdmi(Admission a) {
+        serv.newAdmission(a);
+        System.out.println("id:"+a.getId());
+        return a;
+    }
+    
+    @POST
+    @Path("medicpresc")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public MedicamentPrescription newMedPresc(MedicamentPrescription mp) {
+        serv.newMedicamentPrescription(mp);
+        System.out.println("id:"+mp.getIdMedPresc());
+        return mp;
+    }
+    
 //    @POST
 //    @Path("prescriptions")
 //    @Consumes(MediaType.APPLICATION_JSON)
