@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<br/>
+
+<div class="row col-lg-12">
+  <div class="col-lg-6">
+  
+  <form novalidate class="form-horizontal">
+    <h3> Détails de la prescription d'identifiant {{ ctrl.pr.idPresc }} </h3>
+    
+    Date: <input type="text" ng-model="ctrl.pr.datePresc" /><br />
+    Etat: <input type="text" ng-model="ctrl.pr.etat" /><br />
+    Préparateur: <input type="text" ng-model="ctrl.pr.preparateur" /><br />
+    Unité fonctionnelle: <input type="text" ng-model="ctrl.pr.nomUF" /><br />
+    Patient Nom: <input type="text" ng-model="ctrl.pr.admiPatient.nomPatient" />  Prénom: <input type="text" ng-model="ctrl.pr.admiPatient.prenomPatient" /><br />
+</form>
+  </div>
+    
+    
+  <div class="col-lg-1"></div>
+  
+  <div class="col-lg-4"></div>
+  
+  <form novalidate class="form-horizontal">
+    <h3> Ajout d'un médicament </h3>
+    
+    Nom du médicament: <select name="select" ng-model="ctrl.medpresc.medPresc" ng-options="med.nomMed for med in ctrl.med"></select><br />
+    Voie: {{med.administrationMed}}<br />
+    Quantité <input type="text" ng-model="ctrl.medpresc.quantite" /><br /><br />
+    <input type="submit" ng-click="ctrl.newmedpresc()" value="Ajouter" />
+</form>
+  
+</div>
+
+
+
+<br/>
+
+<div class="row col-lg-12">
+    <input class="btn btn-primary" type="button" value="Passer à l'état suivant" ng-click="ctrl.etat(ctrl.pr)"/>
+
+<br/><br/>
+
+<table class="table table-bordered table-striped table-condensed text-center">
+    <tr>
+        <th> Médicament </th>
+        <th> Voie </th>
+        <th> Quantité </th>
+        
+    <tr ng-repeat='med in ctrl.pr.listMedicamentsPresc | filter: recherche'>
+        <td> {{ med.medPresc.nomMed }} </td>
+        <td> {{ med.medPresc.administrationMed }} </td>
+        <td> {{ med.quantite }} </td>
+</table>
+
+</div>

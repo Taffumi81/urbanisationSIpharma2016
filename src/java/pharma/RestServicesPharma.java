@@ -7,20 +7,15 @@ package pharma;
 
 import bureau.*;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -52,15 +47,21 @@ public class RestServicesPharma {
     }
     
     @GET
+    @Path("medicaments/{id}")
+    @Produces("application/json")
+    public Medicament getMedicByID(@PathParam("id") int id) {
+        return serv.getMedicamentByID(id);
+    }
+    
+    @GET
     @Path("admissions")
     @Produces("application/json")
     public List<Admission> getAllAdmi() {
-        //TODO return proper representation object
         return serv.getAllAdmission();
     }
     
     @GET
-    @Path("admissions/iep/{id}")
+    @Path("admissions/{id}")
     @Produces("application/json")
     public Admission getAdmiByIEP(@PathParam("id") int iep) {
         return serv.getAdmissionByIEP(iep);
@@ -77,7 +78,6 @@ public class RestServicesPharma {
     @Path("prescriptions")
     @Produces("application/json")
     public List<Prescription> getAllPresc() {
-        //TODO return proper representation object
         return serv.getAllPrescription();
     }
     
@@ -89,11 +89,26 @@ public class RestServicesPharma {
     }
     
     @GET
-    @Path("prescriptions/prep/{prep}")
+    @Path("prescriptions/iep/{id}")
     @Produces("application/json")
-    public List<Prescription> getWorklistPrep(@PathParam("prep") String prep) {
-        return serv.consultWorklistPrep(prep);
+    public List<Prescription> getPrescByIep(@PathParam("id") int id) {
+        return serv.consultPrescriptionByIEP(id);
     }
+    
+    @GET
+    @Path("prescriptions/ipp/{id}")
+    @Produces("application/json")
+    public List<Prescription> getPrescByIpp(@PathParam("id") int id) {
+        return serv.consultPrescriptionByIPP(id);
+    }
+    
+    @GET
+    @Path("medpresc/{id}")
+    @Produces("application/json")
+    public MedicamentPrescription getMedPresc(@PathParam("id") int id) {
+        return serv.getMedicamentPrescriptionByID(id);
+    }
+   
 //    
 //    //NEW
 //    
@@ -118,7 +133,7 @@ public class RestServicesPharma {
     }
     
     @POST
-    @Path("medicpresc")
+    @Path("medpresc")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public MedicamentPrescription newMedPresc(MedicamentPrescription mp) {
@@ -127,23 +142,79 @@ public class RestServicesPharma {
         return mp;
     }
     
-//    @POST
-//    @Path("prescriptions")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces("application/json")
-//    public Prescription newPresc(Prescription p) {
-//        serv.newPrescription(p);
-//        System.out.println("id:"+p.getIdPresc());
-//        return p;
-//    }
-//    
-//    //DELETE
-//    
-//    @DELETE
-//    @Path("medicaments/{id}")
-//    public Response removeMedic(@PathParam("id") int id) {
-//        serv.deleteMedicament(id);
-//        return Response.status(200).build();
-//    }
-   
+    @POST
+    @Path("prescriptions")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public Prescription newPresc(Prescription p) {
+        serv.newPrescription(p);
+        System.out.println("id:"+p.getIdPresc());
+        return p;
+    }
+    
+    //SET
+    
+    @POST
+    @Path("medicaments/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public Medicament updateMed(Medicament m) {
+        serv.updateMedicament(m);
+        System.out.println("id:"+m.getId());
+        return m;
+    }
+    
+    @POST
+    @Path("admissions/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public Admission updateAdmi(Admission ad) {
+        serv.updateAdmission(ad);
+        System.out.println("id:"+ad.getId());
+        return ad;
+    }
+    
+    @POST
+    @Path("medicpresc/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public MedicamentPrescription updateMedPresc(MedicamentPrescription mp) {
+        serv.updateMedPresc(mp);
+        System.out.println("id:"+mp.getIdMedPresc());
+        return mp;
+    }
+    
+    @POST
+    @Path("prescriptions/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public Prescription updatePresc(Prescription p) {
+        serv.updatePrescription(p);
+        System.out.println("id:"+p.getIdPresc());
+        return p;
+    }
+    
+    @GET
+    @Path("prescriptions/state/{id}")
+    @Produces("application/json")
+    public Response updateStatePresc(@PathParam("id") int id){
+        Prescription pr = serv.getPrescriptionByID(id);
+        serv.setEtatSuivantPrescription(pr);
+        return Response.status(200).build();
+    }
+    //DELETE
+    
+    @DELETE
+    @Path("medicpresc/{id}")
+    public Response removeMedPresc(@PathParam("id") int id) {
+        serv.deleteMedicamentPrescription(id);
+        return Response.status(200).build();
+    }
+    
+    @DELETE
+    @Path("prescriptions/{id}")
+    public Response removePresc(@PathParam("id") int id) {
+        serv.deletePrescription(id);
+        return Response.status(200).build();
+    }
 }

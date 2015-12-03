@@ -28,7 +28,7 @@ public class Medicament implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private int id;
     
     @Column
     private String nomMed;
@@ -68,11 +68,11 @@ public class Medicament implements Serializable {
         this.stockMed = stockMed;
     }
     
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

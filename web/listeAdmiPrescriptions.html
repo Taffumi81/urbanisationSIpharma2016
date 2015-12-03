@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<br/>
+
+<table class="table table-bordered table-striped table-condensed text-center">
+    <tr>
+        <th> Id </th>
+        <th> IEP </th>
+        <th> IPP </th>
+        <th> Unite Fonctionnelle </th>
+        <th> Etat </th>
+        <th> Preparateur </th>
+        <th> Date </th>
+        <th> Details</th>
+        
+    <tr ng-repeat='pr in ctrl.pr | filter: recherche'>
+        <td> {{ pr.idPresc }} </td>
+        <td> {{ pr.admiPatient.IEP }} </td>
+        <td> {{ pr.admiPatient.IPP }} </td>
+        <td> {{ pr.nomUF }} </td>
+        <td> {{ pr.etat }} </td>
+        <td> {{ pr.preparateur }} </td>
+        <td> {{ pr.datePresc }} </td>
+        <td> <input class="btn btn-info" type="button" value="Infos" ng-click="ctrl.details(pr)"/> </td>
+    </tr>
+ 
+    
+</table>

@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import org.hibernate.Session;
 /**
  *
  * @author achevannjkl jkl
@@ -61,6 +59,17 @@ public class ServicesPharma {
 	TypedQuery<Medicament> query = em.createQuery("SELECT m FROM Medicament m", Medicament.class);
         List<Medicament> res = query.getResultList();
         return res;
+    }
+     
+    public Medicament getMedicamentByID (int id) {
+	Medicament res = em.find( Medicament.class, id );
+        return res;
+    }    
+    
+    public void updateMedicament (Medicament m) {
+        em.getTransaction( ).begin( );
+        em.merge(m);
+        em.getTransaction().commit(); 
     }
     
     public void deleteAllMedicaments() {
@@ -130,6 +139,12 @@ public class ServicesPharma {
 	em.getTransaction( ).begin( );
         em.persist(a);
         em.getTransaction().commit();
+    }
+    
+    public void updateAdmission (Admission ad) {
+        em.getTransaction( ).begin( );
+        em.merge(ad);
+        em.getTransaction().commit(); 
     }
     
     public List<Admission> getAllAdmission() {
@@ -238,6 +253,35 @@ public class ServicesPharma {
         em.getTransaction().commit();
     }
     
+    public void setEtatSuivantPrescription(Prescription p) {
+
+        switch (p.getEtat()) {
+            case NonValide:
+                p.setEtat(Etat.Valide);
+                em.getTransaction().begin();
+                em.merge(p);
+                em.getTransaction().commit();
+                break;
+                
+            case Valide:
+                p.setEtat(Etat.EnCoursPrep);
+                em.getTransaction().begin();
+                em.merge(p);
+                em.getTransaction().commit();
+                break;
+                
+            case EnCoursPrep:
+                p.setEtat(Etat.Delivree);
+                em.getTransaction().begin();
+                em.merge(p);
+                em.getTransaction().commit();
+                break;
+
+            default:
+                break;
+        }
+    }
+    
     public void updatePrescription (Prescription p) {
         em.getTransaction( ).begin( );
         em.merge(p);
@@ -256,8 +300,7 @@ public class ServicesPharma {
         em.getTransaction( ).begin( );
         em.persist(p);
         em.getTransaction().commit();
-    }
-    
+    }  
     
     //Retourne false s'il n'y pas d'interaction dans la prescription
     public boolean detectInteractMedPresc (Prescription p, Medicament m) {
@@ -296,6 +339,11 @@ public class ServicesPharma {
         return mp;
     }
     
+    public MedicamentPrescription getMedicamentPrescriptionByID(int id) {
+        MedicamentPrescription res = em.find( MedicamentPrescription.class, id );
+        return res;
+    }
+    
     public MedicamentPrescription createMedicamentPrescription(Medicament med , int q) {
         MedicamentPrescription mp = new MedicamentPrescription();
         mp.setMedPresc(med);
@@ -307,6 +355,12 @@ public class ServicesPharma {
 	em.getTransaction( ).begin( );
         em.persist(mp);
         em.getTransaction().commit();
+    }
+    
+    public void updateMedPresc (MedicamentPrescription mp) {
+        em.getTransaction( ).begin( );
+        em.merge(mp);
+        em.getTransaction().commit(); 
     }
     
     public void deleteAllMedicamentPrescription() {
@@ -334,7 +388,7 @@ public class ServicesPharma {
     public List<Prescription> consultPrescriptionByAdmission (Admission admiIEP) {
 	TypedQuery<Prescription> query;
         query = em.createQuery(
-                "SELECT p FROM Prescription p WHERE p.AdmiPatient LIKE :admiIEP ", Prescription.class)
+                "SELECT p FROM Prescription p WHERE p.admiPatient LIKE :admiIEP ", Prescription.class)
                 .setParameter("admiIEP",admiIEP);
         List<Prescription> res = query.getResultList();
         return res;
@@ -345,7 +399,7 @@ public class ServicesPharma {
         Admission admiIEP = getAdmissionByIEP(IEP);
 	TypedQuery<Prescription> query;
         query = em.createQuery(
-                "SELECT p FROM Prescription p WHERE p.AdmiPatient LIKE :admiIEP ", Prescription.class)
+                "SELECT p FROM Prescription p WHERE p.admiPatient LIKE :admiIEP ", Prescription.class)
                 .setParameter("admiIEP",admiIEP);
         List<Prescription> res = query.getResultList();
         return res;
@@ -359,4 +413,15 @@ public class ServicesPharma {
         }
         return listPresc;
     }
+    
+//    public List<String> consultListePrep () {
+//        List<String> listPrep = new ArrayList();
+//        List<Prescription> listPresc = getAllPrescription();
+//        for (Prescription pr : listPresc) { 
+//            if(!listPrep.contains(pr.getPreparateur())) {
+//               listPrep.add(pr.getPreparateur()); 
+//            }
+//        }
+//        return listPrep;
+//    }
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+</br>
+<input class="btn btn-primary" type="button" value="Nouvelle prescription" ng-click="ctrl.new()"/> </br></br>
+
+<table class="table table-bordered table-striped table-condensed text-center">
+    <tr>
+        <th> Id </th>
+        <th> Unite Fonctionnelle </th>
+        <th> Etat </th>
+        <th> Preparateur </th>
+        <th> Date </th>
+        <th> Details</th>
+        <th> Administration</th>
+        
+    <tr ng-repeat='pr in ctrl.pr | filter: recherche'>
+        <td> {{ pr.idPresc }} </td>
+        <td> {{ pr.nomUF }} </td>
+        <td> {{ pr.etat }} </td>
+        <td> {{ pr.preparateur }} </td>
+        <td> {{ pr.datePresc }} </td>
+        <td> <input class="btn btn-info" type="button" value="Infos" ng-click="ctrl.details(pr)"/> </td>
+        <td> <input class="btn btn-primary" type="button" value="Edit" ng-click="ctrl.edit(pr)"/> <input class="btn btn-danger" type="button" value="Delete" ng-click="ctrl.delete(pr)"/> </td>
+    </tr>
+ 
+    
+</table>

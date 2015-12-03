@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+</br>
+<input class="btn btn-primary" type="button" value="Nouvelle admission" ng-click="ctrl.new()"/> </br></br>
+
+<table class="table table-bordered table-striped table-condensed text-center">
+    <tr>
+        <th> IEP </th>
+        <th> IPP </th>
+        <th> Nom </th>
+        <th> Prenom </th>
+        <th> Voir les prescriptions </th>
+        <th> Administration </th>
+        
+    <tr ng-repeat='ad in ctrl.ad | filter: recherche'>
+        <td> {{ ad.IEP }} </td>
+        <td> {{ ad.IPP }} </td>
+        <td> {{ ad.nomPatient }} </td>
+        <td> {{ ad.prenomPatient }} </td>
+        <td> <input class="btn btn-primary" type="button" value="Par IEP" ng-click="ctrl.iep(ad)"/> <input class="btn btn-danger" type="button" value="Par IPP" ng-click="ctrl.ipp(ad)"/> </td>
+        <td> <input class="btn btn-primary" type="button" value="Edit" ng-click="ctrl.edit(ad)"/> <input class="btn btn-danger" type="button" value="Delete" ng-click="ctrl.delete(ad)"/> </td>
+    </tr>
+ 
+</table>

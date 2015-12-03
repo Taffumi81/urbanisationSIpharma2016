@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+</br>
+
+<table class="table table-bordered table-striped table-condensed text-center">
+    <tr>
+        <th> IEP </th>
+        <th> IPP </th>
+        <th> Nom </th>
+        <th> Prenom </th>
+        
+    <tr ng-repeat='ad in ctrl.ad | filter: recherche'>
+        <td> {{ ad.IEP }} </td>
+        <td> {{ ad.IPP }} </td>
+        <td> {{ ad.nomPatient }} </td>
+        <td> {{ ad.prenomPatient }} </td>   
+    </tr>
+ 
+</table>

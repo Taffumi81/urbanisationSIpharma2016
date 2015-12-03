@@ -46,17 +46,17 @@ public class Prescription implements Serializable {
     List<MedicamentPrescription> medicamentsPresc;
     
     @ManyToOne
-    private Admission AdmiPatient ;
+    private Admission admiPatient ;
 
     
     /*Getter & Setter*/
 
     public Admission getAdmiPatient() {
-        return AdmiPatient;
+        return admiPatient;
     }
 
     public void setAdmiPatient(Admission AdmiPatient) {
-        this.AdmiPatient = AdmiPatient;
+        this.admiPatient = AdmiPatient;
     }
     
     public int getIdPresc() {

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+</br>
+<input class="btn btn-primary" type="button" value="Nouveau médicament" ng-click="ctrl.new()"/> </br></br>
+
+<table class="table table-bordered table-striped table-condensed text-center">
+    <tr>
+        <th> Id </th>
+        <th> Nom </th>
+        <th> Voie Administration </th>
+        <th> Stock </th>
+        <th> Administration </th>
+        
+    <tr ng-repeat='med in ctrl.med | filter: recherche'>
+        <td> {{ med.id }} </td>
+        <td> {{ med.nomMed }} </td>
+        <td> {{ med.administrationMed }} </td>
+        <td> {{ med.stockMed }} </td>
+        <td> <input class="btn btn-primary" type="button" value="Edit" ng-click="ctrl.edit(med)"/> <input class="btn btn-danger" type="button" value="Delete" ng-click="ctrl.delete(med)"/></td>
+    </tr>
+ 
+    
+</table>
