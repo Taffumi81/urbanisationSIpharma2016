@@ -48,7 +48,7 @@ angular.module('monApp').config(['$routeProvider', function routeConfig($routePr
         controller: "PrescController as ctrl",
         templateUrl: 'listePrescriptions.html'    
     })
-    .when('/prescriptions/:id', {
+    .when('/prescriptions/details/:id', {
         controller: "PrescDetailsController as ctrl",
         templateUrl: 'detailsPrescription.html'    
     })
@@ -60,9 +60,9 @@ angular.module('monApp').config(['$routeProvider', function routeConfig($routePr
         controller: "PrescIPPController as ctrl",
         templateUrl: 'listeAdmiPrescriptions.html'
     })
-    .when('/prescriptions/news', {
+    .when('/prescriptions/new', {
         controller: "PrescNewController as ctrl",
-        templateUrl: 'newPrescription.html'    
+        templateUrl: 'newPresc.html'    
     })
     
     .otherwise({ redirectTo: '/'});

@@ -36,12 +36,13 @@ angular.module('monApp')
         ])
 
 
-        .controller('MedicNewController', ['Medicaments',
-            function (Medicament) {
+        .controller('MedicNewController', ['Medicaments','$location',
+            function (Medicament,$location) {
                 var self = this;
                 this.med = new Medicament();
                 this.update = function () {
                     this.med.$save();
+                    $location.path("/medicaments");
                 };
             }])
 
@@ -84,12 +85,13 @@ angular.module('monApp')
         ])
 
 
-        .controller('AdmiNewController', ['Admissions',
-            function (Admission) {
+        .controller('AdmiNewController', ['Admissions','$location',
+            function (Admission,$location) {
                 var self = this;
                 this.ad = new Admission();
                 this.update = function () {
                     this.ad.$save();
+                    $location.path("/admissions");
                 };
             }
         ])
@@ -98,9 +100,8 @@ angular.module('monApp')
             function ($routeParams, Admission, $location) {
                 this.ad = Admission.get({id: $routeParams.id});
                 this.update = function () {
-                    // appel POST asynchrone au service web sur /crayons/{id} 
                     this.ad.$save();
-                    $location.path("/admissions")
+                    $location.path("/admissions");
                 };
             }
         ])
@@ -150,37 +151,38 @@ angular.module('monApp')
                     $location.path("/prescriptions/new");
                 };
                 this.details = function (pr) {
-                    $location.path("/prescriptions/" + pr.idPresc);
+                    $location.path("/prescriptions/details/" + pr.idPresc);
                 };
             }
         ])
 
 
-        .controller('PrescDetailsController', ['Prescriptions','PrescriptionsState','Medicaments','$routeParams', '$location',
-            function (Prescriptions, PrescriptionsState, Medicaments, $location, $routeParams) {
+        .controller('PrescDetailsController', ['Prescriptions','PrescriptionsState','Medicaments','MedPresc','$routeParams', '$location',
+            function (Prescriptions, PrescriptionsState, Medicaments,MedPresc,$routeParams,$location) {
                 var self = this;
-//                this.medpresc = new MedPresc();
-//                this.pr = Prescriptions.get({id: $routeParams.idPresc});
+                this.medpresc = new MedPresc();
+                this.pr = Prescriptions.get({id: $routeParams.idPresc});
                 this.med = Medicaments.query(); 
                 this.etat = function (pr) {
                     PrescriptionsState.get({id: pr.idPresc});
                     location.reload();
                 };
-//                this.newmedpresc = function () {
-//                    this.medpresc.$save();
-//                    $location.path("/prescriptions/" + pr.idPresc);
-//                    location.reload();        
-//                };
+                this.newmedpresc = function () {
+                    this.medpresc.$save();
+                    $location.path("/prescriptions/" + pr.idPresc);
+                    location.reload();        
+                };
             }
         ])
         
-        .controller('PrescNewController', ['Prescriptions', 'Admissions',
-            function (Prescriptions,Admissions) {
+        .controller('PrescNewController', ['Prescriptions', 'Admissions', '$location',
+            function (Prescriptions,Admissions,$location) {
                 var self = this;
                 this.pr = new Prescriptions();
                 this.ad = Admissions.query();
                 this.update = function () {
                     this.pr.$save();
+                    $location.path("/prescriptions/");
                 };
             }
         ]);

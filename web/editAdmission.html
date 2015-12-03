@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 
-
-<form novalidate class="simple-form">
-    <h3> Edition du médicament d'identifiant {{ ctrl.ad.id }} </h3>
+<div class="container">
+    <div class="col-md-5">
+        <div class="form-area">  
+            <form role="form">
+                <br style="clear:both">
+                <h3 style="margin-bottom: 25px; text-align: center;">Edition de l'admission d'identifiant {{ ctrl.ad.id }}</h3>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="IEP" ng-model="ctrl.ad.IEP" name="IEP" placeholder="IEP" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="IPP" ng-model="ctrl.ad.IPP" name="IPP" placeholder="IPP" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="nom" ng-model="ctrl.ad.nomPatient" name="nom" placeholder="Nom du patient" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="prenom" ng-model="ctrl.ad.prenomPatient" name="prenom" placeholder="Prenom du patient" required>
+                </div>
+                
+                <input type="submit" class="btn btn-primary pull-right" ng-click="ctrl.update()" value="Sauvergarder" />
+            </form>
+        </div>
+    </div>
     
-    IEP: <input type="text" ng-model="ctrl.ad.IEP" /><br />
-    IPP: <input type="text" ng-model="ctrl.ad.IPP" /><br />
-    Nom: <input type="text" ng-model="ctrl.ad.nomPatient" /><br />
-    Prenom: <input type="text" ng-model="ctrl.ad.prenomPatient" /><br />
+    <br/>
     
-    <input type="submit" ng-click="ctrl.update()" value="Save" />
-</form>
+</div>

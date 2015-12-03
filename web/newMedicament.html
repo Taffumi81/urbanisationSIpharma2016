@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 
+<div class="container">
+    <div class="col-md-5">
+        <div class="form-area">  
+            <form role="form">
+                <br style="clear:both">
+                <h3 style="margin-bottom: 25px; text-align: center;">Ajout d'un nouveau médicament</h3>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="name" ng-model="ctrl.med.nomMed" name="nom" placeholder="Nom" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="voie" ng-model="ctrl.med.administrationMed" name="Voie" placeholder="Voie d'administation" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="stock" ng-model="ctrl.med.stockMed" name="stock" placeholder="Stock initial" required>
+                </div>
 
-<form novalidate class="simple-form">
-    <h3> Définition du nouveau médicament </h3>
-   
-    Nom: <input type="text" ng-model="ctrl.med.nomMed" /><br />
-    Administration: <input type="text" ng-model="ctrl.med.administrationMed" /><br />
-    Stock: <input type="text" ng-model="ctrl.med.stockMed" /><br />
-   
-    <input type="submit" ng-click="ctrl.update()" value="Save" />
-    
-    <div ng-show="ctrl.med.id">
-        Création d'un nouveau médicament d'identifiant {{ ctrl.med.id }} effectuée.
+                <!--<button type="button" id="submit" name="submit" class="btn btn-primary pull-right">Submit Form</button>-->
+                <input type="submit" class="btn btn-primary pull-right" ng-click="ctrl.update()" value="Sauvergarder" />
+            </form>
+        </div>
     </div>
     
     <br/>
     
-    <a href="#/">Retour</a>
-</form>
+</div>
