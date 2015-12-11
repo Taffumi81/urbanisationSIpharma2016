@@ -72,12 +72,12 @@ public class ServicesPharma {
         em.getTransaction().commit(); 
     }
     
-    public void deleteAllMedicaments() {
-        //Suprimmer ses interactions aussi !!!
-        em.getTransaction( ).begin( );
-        em.createQuery("DELETE FROM Medicament").executeUpdate();
-        em.getTransaction().commit();
-    }
+//    public void deleteAllMedicaments() {
+//        //Suprimmer ses interactions aussi !!!
+//        em.getTransaction( ).begin( );
+//        em.createQuery("DELETE FROM Medicament").executeUpdate();
+//        em.getTransaction().commit();
+//    }
     
     public void deleteMedicament(int id) {
         //Suprimmer ses interactions aussi !!!
@@ -87,29 +87,29 @@ public class ServicesPharma {
         em.getTransaction().commit();
     }
     
-    //Ajoute une interaction entre deux médicament (dans les deux sens)
-    public void setInteractionsMedic (Medicament m, Medicament m1) {
-        m.addInteractionMedic(m1);
-        m1.addInteractionMedic(m);
-        em.getTransaction( ).begin( );
-        em.persist(m);
-        em.getTransaction().commit();
-    }
-    
-    //Supprime une interaction entre deux médicament (dans les deux sens)
-    public void deleteInteractionsMedic (Medicament m , Medicament m1) {
-        m.delInteractionMedic(m1);
-        m1.delInteractionMedic(m);
-    }
-    
-    //Retoune vrai si on detecte une interaction
-    public boolean detectInteractionsMedic (Medicament m , Medicament m1) {
-        boolean interactionDetect = false;
-        if (m.interactionsMedic.contains(m1)) {
-            interactionDetect = true;
-        }
-        return interactionDetect;
-    }
+//    //Ajoute une interaction entre deux médicament (dans les deux sens)
+//    public void setInteractionsMedic (Medicament m, Medicament m1) {
+//        m.addInteractionMedic(m1);
+//        m1.addInteractionMedic(m);
+//        em.getTransaction( ).begin( );
+//        em.persist(m);
+//        em.getTransaction().commit();
+//    }
+//    
+//    //Supprime une interaction entre deux médicament (dans les deux sens)
+//    public void deleteInteractionsMedic (Medicament m , Medicament m1) {
+//        m.delInteractionMedic(m1);
+//        m1.delInteractionMedic(m);
+//    }
+//    
+//    //Retoune vrai si on detecte une interaction
+//    public boolean detectInteractionsMedic (Medicament m , Medicament m1) {
+//        boolean interactionDetect = false;
+//        if (m.interactionsMedic.contains(m1)) {
+//            interactionDetect = true;
+//        }
+//        return interactionDetect;
+//    }
     
     /*Admission*/
     
@@ -302,30 +302,30 @@ public class ServicesPharma {
         em.getTransaction().commit();
     }  
     
-    //Retourne false s'il n'y pas d'interaction dans la prescription
-    public boolean detectInteractMedPresc (Prescription p, Medicament m) {
-        boolean interactionDetect = false;
-                
-        for (MedicamentPrescription medP : p.getListMedicamentsPresc() ) {
-            Medicament med = medP.getMedPresc();
-            if(detectInteractionsMedic(med, m)) {
-                interactionDetect = true;
-                break;
-            }
-        }
-        return interactionDetect;
-    }
-    
-    //Prend un medicament créer un medicamentPresc et l'ajoute à la prescription
-    //Retourne false si pas d'interaction et true s'il en detecte une
-    public boolean addMedicamentPresc (Prescription p, Medicament m, int q) {
-        boolean interactionDetect = detectInteractMedPresc (p,m);
-        if (!interactionDetect) {
-            setMedPrescPrescription(p,newMedicamentPrescription(m, q));
-            
-        }
-        return interactionDetect;
-    }
+//    //Retourne false s'il n'y pas d'interaction dans la prescription
+//    public boolean detectInteractMedPresc (Prescription p, Medicament m) {
+//        boolean interactionDetect = false;
+//                
+//        for (MedicamentPrescription medP : p.getListMedicamentsPresc() ) {
+//            Medicament med = medP.getMedPresc();
+//            if(detectInteractionsMedic(med, m)) {
+//                interactionDetect = true;
+//                break;
+//            }
+//        }
+//        return interactionDetect;
+//    }
+//    
+//    //Prend un medicament créer un medicamentPresc et l'ajoute à la prescription
+//    //Retourne false si pas d'interaction et true s'il en detecte une
+//    public boolean addMedicamentPresc (Prescription p, Medicament m, int q) {
+//        boolean interactionDetect = detectInteractMedPresc (p,m);
+//        if (!interactionDetect) {
+//            setMedPrescPrescription(p,newMedicamentPrescription(m, q));
+//            
+//        }
+//        return interactionDetect;
+//    }
     /*MedicamentPrescription*/
     
     public MedicamentPrescription newMedicamentPrescription(Medicament med , int q) {
@@ -376,14 +376,14 @@ public class ServicesPharma {
         em.getTransaction().commit();
     }
     
-    public List<Prescription> consultWorklistPrep (String prep) {
-	TypedQuery<Prescription> query;
-        query = em.createQuery(
-                "SELECT p FROM Prescription p WHERE p.preparateur LIKE :prepName ", Prescription.class)
-                .setParameter("prepName",prep);
-        List<Prescription> res = query.getResultList();
-        return res;
-    }
+//    public List<Prescription> consultWorklistPrep (String prep) {
+//	TypedQuery<Prescription> query;
+//        query = em.createQuery(
+//                "SELECT p FROM Prescription p WHERE p.preparateur LIKE :prepName ", Prescription.class)
+//                .setParameter("prepName",prep);
+//        List<Prescription> res = query.getResultList();
+//        return res;
+//    }
     
     public List<Prescription> consultPrescriptionByAdmission (Admission admiIEP) {
 	TypedQuery<Prescription> query;
@@ -413,15 +413,4 @@ public class ServicesPharma {
         }
         return listPresc;
     }
-    
-//    public List<String> consultListePrep () {
-//        List<String> listPrep = new ArrayList();
-//        List<Prescription> listPresc = getAllPrescription();
-//        for (Prescription pr : listPresc) { 
-//            if(!listPrep.contains(pr.getPreparateur())) {
-//               listPrep.add(pr.getPreparateur()); 
-//            }
-//        }
-//        return listPrep;
-//    }
 }

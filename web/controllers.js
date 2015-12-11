@@ -18,14 +18,6 @@ angular.module('monApp')
             function (Medicament, $location) {
                 var self = this;
                 this.med = Medicament.query();
-                this.raz = function (med) {
-//                    // appel DELETE asynchrone au service web sur /crayons/{id}
-//                    //cr.$delete();
-//                    Medicament.delete(med);
-//                    // remet à jour le tableau des crayons en suprimant l'élément effacé
-//                    self.med.splice(this.med.indexOf(med), 1);
-
-                };
                 this.edit = function (med) {
                     $location.path("/medicaments/edit/" + med.id);
                 };
@@ -56,6 +48,12 @@ angular.module('monApp')
                     this.med.$save();
                     $location.path("/medicaments")
                 };
+                this.raz = function () {
+                    this.med.stockMed = 0;
+                    this.med.$save();
+                    $location.path("/medicaments");
+                    location.reload();
+                };
             }
         ])
 
@@ -64,11 +62,6 @@ angular.module('monApp')
             function (Admission, $location) {
                 var self = this;
                 this.ad = Admission.query();
-                this.delete = function (ad) {
-                    Admission.delete(ad);
-                    // remet à jour le tableau des crayons en suprimant l'élément effacé
-                    self.ad.splice(self.ad.indexOf(ad), 1);
-                };
                 this.edit = function (ad) {
                     $location.path("/admissions/edit/" + ad.id);
                 };
@@ -137,13 +130,6 @@ angular.module('monApp')
             function (Prescriptions, $location) {
                 var self = this;
                 this.pr = Prescriptions.query();
-                this.delete = function (pr) {
-                    // appel DELETE asynchrone au service web sur /crayons/{id}
-                    //cr.$delete();
-                    Prescriptions.delete(pr);
-                    // remet à jour le tableau des crayons en suprimant l'élément effacé
-                    self.pr.splice(self.pr.indexOf(pr), 1);
-                };
                 this.edit = function (pr) {
                     $location.path("/prescriptions/edit/" + pr.idPresc);
                 };
@@ -161,14 +147,21 @@ angular.module('monApp')
             function (Prescriptions, PrescriptionsState, Medicaments,MedPresc,$routeParams,$location) {
                 var self = this;
                 this.medpresc = new MedPresc();
-                this.pr = Prescriptions.get({id: $routeParams.idPresc});
+                this.pr = Prescriptions.get({id: $routeParams.id});
                 this.med = Medicaments.query(); 
                 this.etat = function (pr) {
                     PrescriptionsState.get({id: pr.idPresc});
                     location.reload();
                 };
+                this.update = function () {
+                    this.pr.$save();
+//                    $location.path("/prescriptions/");
+//                    location.reload(); 
+                };
                 this.newmedpresc = function () {
                     this.medpresc.$save();
+                    this.pr.push(this.medpresc);
+                    this.pr.$save();
                     $location.path("/prescriptions/" + pr.idPresc);
                     location.reload();        
                 };
@@ -178,9 +171,12 @@ angular.module('monApp')
         .controller('PrescNewController', ['Prescriptions', 'Admissions', '$location',
             function (Prescriptions,Admissions,$location) {
                 var self = this;
+                this.d = new Date();
                 this.pr = new Prescriptions();
                 this.ad = Admissions.query();
                 this.update = function () {
+                    this.pr.etat = "NonValide";
+                    this.pr.date = this.d;
                     this.pr.$save();
                     $location.path("/prescriptions/");
                 };

@@ -9,28 +9,28 @@
     <div class="col-md-5">
         <div class="form-area">  
             <form role="form">
-                <br style="clear:both">
+                <br style="clear:both"/>
                 <h3 style="margin-bottom: 25px; text-align: center;">Détails de la prescription d'identifiant {{ ctrl.pr.idPresc }}</h3>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="date" ng-model="ctrl.pr.datePresc" name="date" placeholder="Date" required>
+                    <input type="text" class="form-control" id="date" ng-model="ctrl.pr.datePresc" name="date" placeholder="Date" required/>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="prep" ng-model="ctrl.pr.preparateur" name="prep" placeholder="Preparateur" required>
+                    <input type="text" class="form-control" id="prep" ng-model="ctrl.pr.preparateur" name="prep" placeholder="Preparateur" required/>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="UF" ng-model="ctrl.pr.nomUF" name="UF" placeholder="Unité fonctionnelle" required>
+                    <input type="text" class="form-control" id="UF" ng-model="ctrl.pr.nomUF" name="UF" placeholder="Unité fonctionnelle" required/>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="IEP" ng-model="ctrl.pr.admiPatient.IEP" name="IEP" placeholder="IEP" required>
+                    <input type="text" class="form-control" id="IEP" ng-model="ctrl.pr.admiPatient.IEP" name="IEP" placeholder="IEP" required/>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="nom" ng-model="ctrl.pr.admiPatient.nomPatient" name="nom" placeholder="Nom du patient" required>
+                    <input type="text" class="form-control" id="nom" ng-model="ctrl.pr.admiPatient.nomPatient" name="nom" placeholder="Nom du patient" required/>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="prenom" ng-model="ctrl.pr.admiPatient.prenomPatient" name="prenom" placeholder="Prenom du patient" required>
+                    <input type="text" class="form-control" id="prenom" ng-model="ctrl.pr.admiPatient.prenomPatient" name="prenom" placeholder="Prenom du patient" required/>
                 </div>
-
-                <input type="submit" class="btn btn-primary pull-right" ng-click="ctrl.update()" value="Sauvergarder" />
+                
+                <input type="submit" class="btn btn-primary" ng-click="ctrl.update()" value="Modifier" />
             </form>
         </div>
     </div>
@@ -55,17 +55,11 @@
                     <input type="text" class="form-control" id="quantite" name="quantite" ng-model="ctrl.medpresc.quantite" placeholder="Quantite à prescrire" required>
                 </div>
 
-                <input type="submit" class="btn btn-primary pull-right" ng-click="ctrl.newMedPresc()" value="Ajouter" />
+                <input type="submit" class="btn btn-primary" ng-click="ctrl.newmedpresc()" value="Ajouter" />
             </form>
         </div>
     </div>  
-
-
-
-
 </div>   
-
-
 
 <br/>
 

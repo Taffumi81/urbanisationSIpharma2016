@@ -39,7 +39,7 @@ public class pharmaTest {
     
     static void clean() {
         ServicesPharma serv = new ServicesPharma(DatabaseUtils.fact());
-        serv.deleteAllMedicaments();
+//        serv.deleteAllMedicaments();
         serv.deleteAllAdmission();
         serv.deleteAllMedicamentPrescription();
         serv.deleteAllPrescription();
